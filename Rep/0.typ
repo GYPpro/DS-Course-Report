@@ -34,7 +34,7 @@
     )
     = 写在前面
     #smallcaps[Overall]
-    #line(start: (0pt,11pt),end:(300pt,11pt))
+    #line(start: (0pt,-11pt),end:(300pt,-11pt))
     #set text(
       font:("Times New Roman","Source Han Serif SC"),
       style:"normal",
@@ -44,16 +44,13 @@
     老师辛苦了，感谢您一学期的付出！
 
     本实验报告所有代码已经在#smallcaps[Github]上同步了所有相关资料
-    
-    如果您感兴趣，欢迎来我主页#smallcaps[GYPpro]看看！
-
 
     #[
       #set align(bottom)
       #line(start: (0pt,11pt),end:(270pt,11pt))
-      #set text(15pt)
-      信息管理与信息系统 郭彦培\
       #set text(19pt)
+      信息管理与信息系统 郭彦培\
+      #set text(15pt)
       暨南大学
     ]
   ]
