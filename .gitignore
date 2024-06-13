@@ -1,2 +1,2 @@
 eg*.cpp
-Dev/**/eg*.cpp
+Dev\**\eg*.cpp
