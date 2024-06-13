@@ -1,2 +1,4 @@
-Dev\08\eg.h
-Dev\08\eg2.h
+# Dev/08/eg.h
+# Dev/08/eg2.h
+Dev/**/eg*.cpp
+Dev/**/eg*.h
