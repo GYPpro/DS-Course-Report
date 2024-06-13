@@ -1,6 +1,11 @@
 #ifndef RBTREE_MAP_HPP
 #define RBTREE_MAP_HPP
 
+#define __PRIVATE_DEBUGE
+
+#ifdef __PRIVATE_DEBUGE
+#include <iostream>
+#endif
 
 #include <vector>
 #include <stdlib.h>
@@ -101,6 +106,19 @@ namespace myDS
             return deleteChild(root,data); 
         }
 
+#ifdef __PRIVATE_DEBUGE
+        void printDfsOrder()
+        {
+            auto dfs = [&](auto self,Node * p ) -> void {
+                if(p == nullptr) {cout << "[NIL] \n";return;}
+                std::cout << "["<< p->value << " : " << (p->color == COLOR::BLACK ?"BLACK":"RED") << "] ";
+                self(self,p->leftSubTree);
+                self(self,p->rightSubTree);
+                return;
+            };
+            dfs(dfs,root);
+        }
+#endif
     private:
         //右旋某个节点
         void rotateRight(Node *p)
