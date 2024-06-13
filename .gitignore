@@ -2,3 +2,8 @@
 # Dev/08/eg2.h
 Dev/**/eg*.cpp
 Dev/**/eg*.h
+Dev/**/*.exe
+Dev/OutputFile/*
+.VSCodeCounter/2024-06-13_20-02-01/*
+*.exe
+.VSCodeCounter
