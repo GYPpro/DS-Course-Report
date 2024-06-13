@@ -86,7 +86,6 @@ namespace myDS
 
             myDS::vector<TYPE_NAME>::_iterator operator+(size_t _n)
             {
-                //_upper_idx += _n;
                 if (_iter_dest == front)
                     _upper_idx += _n;
                 else
@@ -144,8 +143,7 @@ namespace myDS
             _push_back_idx = _begin + _size;
         }
 
-        // IT
-        vector(std::size_t _n) //
+        vector(std::size_t _n) 
         {
             _size = 0;
             _max_cap = 0;
@@ -170,18 +168,13 @@ namespace myDS
                 this->push_back(x);
         }
 
-        //IT
         void resize(size_t _n)
         {
             if(_n > _size)
                 for(int __i = 0;__i < _n;__i++)
                 {
                     if(_size + 1 >= _max_cap)
-                        _expension();   
-                    // _push_back_idx = new TYPE_NAME();
-                    // if(std::is_integral<TYPE_NAME>::value){ __tmp = 0;}
-                    // if(std::is_floating_point<TYPE_NAME>::value){ __tmp = 0;}
-                    // delete &_begin[_push_back_idx];
+                        _expension();
                     _size ++;
                     _push_back_idx ++;
                 }
@@ -189,12 +182,10 @@ namespace myDS
             _push_back_idx = _begin + _size;
         }
 
-        // HACK:模板参数为未实现=的类
         void push_back(const TYPE_NAME &__tmp)
         {
             if(_size + 1 >= _max_cap)
                 _expension();   
-            // *_push_back_idx = val;
             memcpy(_push_back_idx,&__tmp,sizeof(TYPE_NAME));
             _push_back_idx++;
             _size++;
@@ -262,12 +253,7 @@ namespace myDS
 
         ~vector()
         {
-            // for(TYPE_NAME * __ptr = _begin;__ptr != _begin + _max_cap;__ptr ++)
-                // __ptr->~TYPE_NAME();
-            
-            //FIXME:Unknown signal when vector<vector<int>>
             if(_begin)
-                // ::operator delete[](_begin);
                 delete[] _begin;
         }
     };
