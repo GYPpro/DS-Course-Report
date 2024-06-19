@@ -73,7 +73,7 @@ namespace myDS
         Node *root, *NIL;
         
         //构造函数
-        explicit RBtree() {
+        RBtree() {
             NIL = new Node();
             NIL->color = COLOR::BLACK;
             root = nullptr;
@@ -103,16 +103,16 @@ namespace myDS
         }
 
         bool erase(VALUE_TYPE data) {
-            return deleteChild(root,data); 
+            return subDelete(root,data); 
         }
 
 #ifdef __PRIVATE_DEBUGE
         void printDfsOrder()
         {
             auto dfs = [&](auto self,Node * p ) -> void {
-                if(p == nullptr) {cout << "[NIL] \n";return;}
+                if(p == nullptr) {std::cout << "[NIL] \n";return;}
                 std::cout << "["<< p->value << " : " << (p->color == COLOR::BLACK ?"BLACK":"RED") << "] ";
-                self(self,p->leftSubTree);
+                 self(self,p->leftSubTree);
                 self(self,p->rightSubTree);
                 return;
             };
@@ -205,33 +205,33 @@ namespace myDS
             //case 2-6:
             if(p->parent->color == COLOR::RED){
                 //case 2:
-                if(p->uncle()->color == COLOR::RED) {
-                    p->parent->color = p->uncle()->color = COLOR::BLACK;
+                if(p->getUncle()->color == COLOR::RED) {
+                    p->parent->color = p->getUncle()->color = COLOR::BLACK;
                     p->getGrandParent()->color = COLOR::RED;
-                    insert_case(p->getGrandParent());
+                    resetStatus_forInsert(p->getGrandParent());
                 } else {
                     if(p->parent->rightSubTree == p && p->getGrandParent()->leftSubTree == p->parent) {
                         //case 3:
-                        rotate_left(p);
+                        rotateLeft(p);
                         p->color = COLOR::BLACK;
                         p->parent->color = COLOR::RED;
-                        rotate_right(p);
+                        rotateRight(p);
                     } else if(p->parent->leftSubTree == p && p->getGrandParent()->rightSubTree == p->parent) {
                         //case 4:
-                        rotate_right(p);
+                        rotateRight(p);
                         p->color = COLOR::BLACK;
                         p->parent->color = COLOR::RED;
-                        rotate_left(p);
+                        rotateLeft(p);
                     } else if(p->parent->leftSubTree == p && p->getGrandParent()->leftSubTree == p->parent) {
                         //case 5:
                         p->parent->color = COLOR::BLACK;
                         p->getGrandParent()->color = COLOR::RED;
-                        rotate_right(p->parent);
+                        rotateRight(p->parent);
                     } else if(p->parent->rightSubTree == p && p->getGrandParent()->rightSubTree == p->parent) {
                         //case 6:
                         p->parent->color = COLOR::BLACK;
                         p->getGrandParent()->color = COLOR::RED;
-                        rotate_left(p->parent);
+                        rotateLeft(p->parent);
                     }
                 }
             }
@@ -262,7 +262,7 @@ namespace myDS
                     return true;
                 }
                 Node *smallChild = getLowwestChild(getLowwestChild,p->rightSubTree);
-                swap(p->value, smallChild->value);
+                std::swap(p->value, smallChild->value);
                 deleteChild(smallChild);
 
                 return true;
@@ -271,7 +271,34 @@ namespace myDS
             }
         }
 
-        //删除入口：删除某个儿子
+    //     //删除入口
+    //     bool deleteChild(Node *p, int data){
+    //     if(p->value > data){
+    //         if(p->leftSubTree == NIL){
+    //             return false;
+    //         }
+    //         return deleteChild(p->leftSubTree, data);
+    //     } else if(p->value < data){
+    //         if(p->rightSubTree == NIL){
+    //             return false;
+    //         }
+    //         return deleteChild(p->rightSubTree, data);
+    //     } else if(p->value == data){
+    //         if(p->rightSubTree == NIL){
+    //             delete_one_child (p);
+    //             return true;
+    //         }
+    //         Node *smallest = getSmallestChild(p->rightTree);
+    //         swap(p->value, smallest->value);
+    //         delete_one_child (smallest);
+
+    //         return true;
+    //     }else{
+    //        return false;
+    //      }
+    // }
+
+        //删除处理：删除某个儿子
         void deleteChild(Node *p){
             Node *child = p->leftSubTree == NIL ? p->rightSubTree : p->leftSubTree;
             if(p->parent == nullptr && p->leftSubTree == NIL && p->rightSubTree == NIL){
@@ -307,49 +334,49 @@ namespace myDS
                 p->color = COLOR::BLACK;
                 return;
             }
-            if(p->sibling()->color == COLOR::RED) {
+            if(p->getSibling()->color == COLOR::RED) {
                 //case 0-1:
                 p->parent->color = COLOR::RED;
-                p->sibling()->color = COLOR::BLACK;
-                if(p == p->parent->leftSubTree) rotate_left(p->parent);
-                else rotate_right(p->parent);
+                p->getSibling()->color = COLOR::BLACK;
+                if(p == p->parent->leftSubTree) rotateLeft(p->parent);
+                else rotateRight(p->parent);
             }
             if( p->parent->color == COLOR::BLACK &&
-                p->sibling()->color == COLOR::BLACK &&
-                p->sibling()->leftSubTree->color == COLOR::BLACK && 
-                p->sibling()->rightSubTree->color == COLOR::BLACK) {
+                p->getSibling()->color == COLOR::BLACK &&
+                p->getSibling()->leftSubTree->color == COLOR::BLACK && 
+                p->getSibling()->rightSubTree->color == COLOR::BLACK) {
                 //case 1-1:
-                p->sibling()->color = COLOR::RED;
+                p->getSibling()->color = COLOR::RED;
                 resetStatus_forDelete(p->parent);
-            } else if(p->parent->color == COLOR::RED && p->sibling()->color == COLOR::BLACK&& p->sibling()->leftSubTree->color == COLOR::BLACK && p->sibling()->rightSubTree->color == COLOR::BLACK) {
+            } else if(p->parent->color == COLOR::RED && p->getSibling()->color == COLOR::BLACK&& p->getSibling()->leftSubTree->color == COLOR::BLACK && p->getSibling()->rightSubTree->color == COLOR::BLACK) {
                 //case 1-2:
-                p->sibling()->color = COLOR::RED;
+                p->getSibling()->color = COLOR::RED;
                 p->parent->color = COLOR::BLACK;
             } else {
-                if(p->sibling()->color == COLOR::BLACK) {
-                    if(p == p->parent->leftSubTree && p->sibling()->leftSubTree->color == COLOR::RED && p->sibling()->rightSubTree->color == COLOR::BLACK) {
+                if(p->getSibling()->color == COLOR::BLACK) {
+                    if(p == p->parent->leftSubTree && p->getSibling()->leftSubTree->color == COLOR::RED && p->getSibling()->rightSubTree->color == COLOR::BLACK) {
                         //case 1-3:
-                        p->sibling()->color = COLOR::RED;
-                        p->sibling()->leftSubTree->color = COLOR::BLACK;
-                        rotate_right(p->sibling()->leftSubTree);
-                    } else if(p == p->parent->rightSubTree && p->sibling()->leftSubTree->color == COLOR::BLACK && p->sibling()->rightSubTree->color == COLOR::RED) {
+                        p->getSibling()->color = COLOR::RED;
+                        p->getSibling()->leftSubTree->color = COLOR::BLACK;
+                        rotateRight(p->getSibling()->leftSubTree);
+                    } else if(p == p->parent->rightSubTree && p->getSibling()->leftSubTree->color == COLOR::BLACK && p->getSibling()->rightSubTree->color == COLOR::RED) {
                         //case 1-4:
-                        p->sibling()->color = COLOR::RED;
-                        p->sibling()->rightSubTree->color = COLOR::BLACK;
-                        rotate_left(p->sibling()->rightSubTree);
+                        p->getSibling()->color = COLOR::RED;
+                        p->getSibling()->rightSubTree->color = COLOR::BLACK;
+                        rotateLeft(p->getSibling()->rightSubTree);
                     }
                 }
-                p->sibling()->color = p->parent->color;
+                p->getSibling()->color = p->parent->color;
                 p->parent->color = COLOR::BLACK;
                 //case 1-5:
                 if(p == p->parent->leftSubTree){
                     //case 0-3
-                    p->sibling()->rightSubTree->color = COLOR::BLACK;
-                    rotate_left(p->sibling());
+                    p->getSibling()->rightSubTree->color = COLOR::BLACK;
+                    rotateLeft(p->getSibling());
                 } else {
                     //case 0-4
-                    p->sibling()->leftSubTree->color = COLOR::BLACK;
-                    rotate_right(p->sibling());
+                    p->getSibling()->leftSubTree->color = COLOR::BLACK;
+                    rotateRight(p->getSibling());
                 }
             }
         }
