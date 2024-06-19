@@ -50,7 +50,7 @@ namespace myDS
             { 
                 priv = _priv;
                 _priv->next = this;
-                return this->next;
+                return this->priv;
             }
 
             void insertNext(linkedNode * _inst){
@@ -82,7 +82,6 @@ namespace myDS
         {
         private:
             linkedNode *_ptr;
-            linkedList<VALUE_TYPE> * _upper_pointer;
 
         public:
             enum __iter_dest_type
@@ -92,10 +91,9 @@ namespace myDS
             };
             __iter_dest_type _iter_dest;
             
-            _iterator(myDS::linkedList<VALUE_TYPE> *_upper ,__iter_dest_type _d)
+            _iterator(linkedNode * _upper ,__iter_dest_type _d)
             {
-                _upper_pointer = _upper;
-                _ptr = &(*_upper_pointer).begin();        
+                _ptr = _upper;
                 _iter_dest = _d;      
             }
 
@@ -164,13 +162,22 @@ namespace myDS
             head->linkNext(tail);
         }
 
+        ~linkedList(){
+            clear();
+            delete head;
+            delete tail;
+        }
+
         void push_back(VALUE_TYPE t) {
-            tail =( tail->linkNext(new linkedNode(t)));
+            tail->data = t;
+            tail->linkNext(new linkedNode());
+            tail = tail->next;
             cap ++;
         }
 
         void push_frount(VALUE_TYPE t) {
-            head =( head->linkPriv(new linkedNode(t)));
+            head->data = t;
+            head = (head->linkPriv(new linkedNode()));
             cap ++;
         }
 
@@ -182,15 +189,19 @@ namespace myDS
                 delete deletingObject;
             }
             cap = 0;
+            tail = new linkedNode();
+            head = new linkedNode();
+            head->linkNext(tail);
         }
 
         std::size_t erase(VALUE_TYPE p) {
             linkedNode * ptr = head;
             int ttl = 0;
             while(ptr->next != tail) {
-                if(ptr->next->data == p) ptr->deleteNext();
-                ptr = ptr->next;
-                ttl ++;
+                if(ptr->next->data == p){
+                    ptr->deleteNext();
+                    ttl ++;
+                } else ptr = ptr->next;
             }
             cap -= ttl;
             return ttl;
@@ -200,47 +211,65 @@ namespace myDS
 
         bool erase(linkedList<VALUE_TYPE>::_iterator p) {
             myDS::linkedList<VALUE_TYPE>::_iterator ptr = this->begin();
-            linkedNode cur = head;
+            linkedNode * cur = head;
             while(ptr != p) {
-                cur = cur.next;
+                cur = cur->next;
+                ptr ++;
                 if(cur == tail) return 0;
             }
-            cur.deleteNext();
+            cur->deleteNext();
+            cap --;
             return 1;
         }
 
         myDS::linkedList<VALUE_TYPE>::_iterator begin() {
-            enum _FRONT = myDS::linkedList<VALUE_TYPE>::_iterator::__iter_dest_type::front;
+            enum myDS::linkedList<VALUE_TYPE>::_iterator::__iter_dest_type _FRONT = myDS::linkedList<VALUE_TYPE>::_iterator::__iter_dest_type::front;
             return myDS::linkedList<VALUE_TYPE>::_iterator(head->next,_FRONT);
         }
         
         myDS::linkedList<VALUE_TYPE>::_iterator rbegin() {
-            enum _BACK = myDS::linkedList<VALUE_TYPE>::_iterator::__iter_dest_type::back;
+            enum myDS::linkedList<VALUE_TYPE>::_iterator::__iter_dest_type _BACK = myDS::linkedList<VALUE_TYPE>::_iterator::__iter_dest_type::back;
             return myDS::linkedList<VALUE_TYPE>::_iterator(tail->priv,_BACK);
         }
 
         myDS::linkedList<VALUE_TYPE>::_iterator end() {
-            enum _FRONT = myDS::linkedList<VALUE_TYPE>::_iterator::__iter_dest_type::front;
+            enum myDS::linkedList<VALUE_TYPE>::_iterator::__iter_dest_type _FRONT = myDS::linkedList<VALUE_TYPE>::_iterator::__iter_dest_type::front;
             return myDS::linkedList<VALUE_TYPE>::_iterator(tail,_FRONT);
         }
 
         myDS::linkedList<VALUE_TYPE>::_iterator rend() {
-            enum _BACK = myDS::linkedList<VALUE_TYPE>::_iterator::__iter_dest_type::back;
+            enum myDS::linkedList<VALUE_TYPE>::_iterator::__iter_dest_type _BACK = myDS::linkedList<VALUE_TYPE>::_iterator::__iter_dest_type::back;
             return myDS::linkedList<VALUE_TYPE>::_iterator(head,_BACK);
         }
 
         myDS::linkedList<VALUE_TYPE>::_iterator get(std::size_t p) {
-            linkedNode * ptr = head;
+            linkedNode * ptr = head->next;
             while(p --) ptr = ptr->next;
-            enum _FRONT = myDS::linkedList<VALUE_TYPE>::_iterator::__iter_dest_type::front;
+            enum myDS::linkedList<VALUE_TYPE>::_iterator::__iter_dest_type _FRONT = myDS::linkedList<VALUE_TYPE>::_iterator::__iter_dest_type::front;
             return myDS::linkedList<VALUE_TYPE>::_iterator(ptr,_FRONT);
         }
 
         VALUE_TYPE & operator[](std::size_t p) {
             linkedNode * ptr = head;
             while(p --) ptr = ptr->next;
-            return ptr->data;
+            return ptr->next->data;
         }
+ 
+#ifdef _PRIVATE_DEBUG
+        void innerPrint()
+        {
+            std::cout << "--Header[" << head << "]: " << head->data << "\n";
+            std::cout << "--Tail[" << tail << "]: " << tail->data << "\n";
+            std::cout << "-----------\n";
+            std::cout << "cur:" << cap<< "\n";
+            auto ptr = head;
+            do {
+                std::cout << "[" << ptr << "] ->next:" << ptr->next << " ->priv:" << ptr->priv << " ||data:" << ptr->data << "\n";
+                ptr = ptr->next;
+            }while(ptr != nullptr);
+        }
+#endif
+ 
     };
 }
 #endif
