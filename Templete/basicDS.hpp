@@ -78,7 +78,7 @@ namespace myDS
             bool operator!=(myDS::linkedList<VALUE_TYPE>::_iterator _b) { }
         };
 
-        linkedNode * ROOT = new linkedNode();
+        linkedNode * head = new linkedNode();
 
     public:
         linkedList(){ }

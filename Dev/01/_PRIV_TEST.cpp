@@ -1,5 +1,7 @@
 #define DS_TOBE_TEST linkedList
 
+#define _PRIVATE_DEBUG
+
 #include "Dev\01\linkedList.h"
 
 #include <iostream>
