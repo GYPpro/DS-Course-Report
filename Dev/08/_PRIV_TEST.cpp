@@ -1,9 +1,12 @@
 // #include <d:\Desktop\Document\Coding\C++\ProjectC\myDS\myVector.h>
 // #include "myVector.h"
+#define __PRIVATE_DEBUGE
+// #define __DETIL_DEBUG_OUTPUT
 #include "Dev\08\RB_Tree.h"
 #include "Dev\08\eg2.h"
 #include <iostream>
 #include <vector>
+
 
 using namespace myDS;
 
