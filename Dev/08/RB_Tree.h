@@ -1,8 +1,6 @@
 #ifndef RBTREE_MAP_HPP
 #define RBTREE_MAP_HPP
 
-#define __PRIVATE_DEBUGE
-
 #ifdef __PRIVATE_DEBUGE
 #include <iostream>
 #endif
@@ -160,22 +158,46 @@ namespace myDS
             Node *_gp = p->getGrandParent();
             Node *_pa = p->parent;
             Node *_rotX = p->leftSubTree;
+            
+#ifdef __DETIL_DEBUG_OUTPUT
+            printIterOrder();
+#endif
             _pa->rightSubTree = _rotX;
+
+#ifdef __DETIL_DEBUG_OUTPUT
+            printIterOrder();
+#endif
+
             if(_rotX != NIL)
                 _rotX->parent = _pa;
-            p->leftSubTree = _pa;
-            _pa->parent = p;
 
+#ifdef __DETIL_DEBUG_OUTPUT
+            printIterOrder();
+#endif
+            p->leftSubTree = _pa;
+#ifdef __DETIL_DEBUG_OUTPUT
+            printIterOrder();
+#endif
+            _pa->parent = p;
+#ifdef __DETIL_DEBUG_OUTPUT
+            printIterOrder();
+#endif
             if(root == _pa)
                 root = p;
             p->parent = _gp;
 
+#ifdef __DETIL_DEBUG_OUTPUT
+            printIterOrder();
+#endif
             if(_gp != nullptr){
                 if(_gp->leftSubTree == _pa)
                     _gp->leftSubTree = p;
                 else
-                    _gp->leftSubTree = p; //?!
+                    _gp->rightSubTree = p; //?!
             }
+#ifdef __DETIL_DEBUG_OUTPUT
+            printIterOrder();
+#endif
         }
 
         //插入节点递归部分
