@@ -191,6 +191,11 @@ namespace myDS
             _size++;
         }
 
+        void clear()
+        {
+            this->resize(0);
+        }
+
         vector<TYPE_NAME>::_iterator begin()
         {
             enum myDS::vector<TYPE_NAME>::_iterator::__iter_dest_type s = myDS::vector<TYPE_NAME>::_iterator::__iter_dest_type::front;

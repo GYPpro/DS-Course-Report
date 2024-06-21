@@ -207,10 +207,18 @@ Iter with AUTO&&
  */
 
 void memLeakTest() {//内存泄漏测试
-
+    TBT tc = TBT();
+    for(;;){
+        tc.push_back(1);
+        tc.push_back(1);
+        tc.push_back(1);
+        tc.push_back(1);
+        tc.clear();
+    }
 }
 
 signed main()
 {
-    accuracyTest();
+    // accuracyTest();
+    memLeakTest();
 }

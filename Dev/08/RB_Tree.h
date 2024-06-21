@@ -110,11 +110,23 @@ namespace myDS
         void printDfsOrder()
         {
             auto dfs = [&](auto self,Node * p ) -> void {
-                if(p == nullptr) {std::cout << "[NIL] \n";return;}
+                if(p->leftSubTree == nullptr && p->rightSubTree == nullptr) {std::cout << "[NIL] \n";return;}
                 std::cout << "["<< p->value << " : " << (p->color == COLOR::BLACK ?"BLACK":"RED") << "] ";
-                 self(self,p->leftSubTree);
+                self(self,p->leftSubTree);
                 self(self,p->rightSubTree);
                 return;
+            };
+            dfs(dfs,root);
+        }
+
+        vector<int> printList;
+        void printIterOrder()
+        {
+            auto dfs = [&](auto self,Node * p) -> void{
+                if(p->leftSubTree == nullptr && p->rightSubTree == nullptr) {std::cout << "[NIL] \n";return;}
+                self(self,p->leftSubTree);
+                std::cout << "["<< p->value << " : " << (p->color == COLOR::BLACK ?"BLACK":"RED") << "] ";
+                self(self,p->rightSubTree);
             };
             dfs(dfs,root);
         }
@@ -128,7 +140,7 @@ namespace myDS
             Node * _rotY = p->rightSubTree;
             _pa->leftSubTree = _rotY;
             if(_rotY != NIL) _rotY->parent = _pa;
-            p->parent = _pa;
+            p->rightSubTree = _pa;
             _pa->parent = p;
 
             if(root == _pa) root = p;
@@ -146,7 +158,7 @@ namespace myDS
                 return;
             }
             Node *_gp = p->getGrandParent();
-            Node *_pa = p->getParent();
+            Node *_pa = p->parent;
             Node *_rotX = p->leftSubTree;
             _pa->rightSubTree = _rotX;
             if(_rotX != NIL)
@@ -162,7 +174,7 @@ namespace myDS
                 if(_gp->leftSubTree == _pa)
                     _gp->leftSubTree = p;
                 else
-                    _gp->leftSubTree = p;
+                    _gp->leftSubTree = p; //?!
             }
         }
 
@@ -204,7 +216,7 @@ namespace myDS
             }
             //case 2-6:
             if(p->parent->color == COLOR::RED){
-                //case 2:
+                //case 2: pass
                 if(p->getUncle()->color == COLOR::RED) {
                     p->parent->color = p->getUncle()->color = COLOR::BLACK;
                     p->getGrandParent()->color = COLOR::RED;
@@ -228,7 +240,7 @@ namespace myDS
                         p->getGrandParent()->color = COLOR::RED;
                         rotateRight(p->parent);
                     } else if(p->parent->rightSubTree == p && p->getGrandParent()->rightSubTree == p->parent) {
-                        //case 6:
+                        //case 6: BUG HERE
                         p->parent->color = COLOR::BLACK;
                         p->getGrandParent()->color = COLOR::RED;
                         rotateLeft(p->parent);

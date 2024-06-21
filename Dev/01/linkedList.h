@@ -34,9 +34,9 @@ namespace myDS
 
             ~linkedNode() {
     #ifdef _PRIVATE_DEBUG
-            if(this->next != nullptr)
-                std::cout << "Unexpected Delete at :" << this->data
-                        << " with next:" << this->next->data << "\n";
+            // if(this->next != nullptr)
+            //     std::cout << "Unexpected Delete at :" << this->data
+            //             << " with next:" << this->next->data << "\n";
     #endif
             }
 
@@ -189,6 +189,8 @@ namespace myDS
                 delete deletingObject;
             }
             cap = 0;
+            delete head;
+            delete tail;
             tail = new linkedNode();
             head = new linkedNode();
             head->linkNext(tail);

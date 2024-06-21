@@ -1,288 +1,150 @@
-// #include <d:\Desktop\Document\Coding\C++\ProjectC\myDS\myVector.h>
-#include "myVector.h"
+#define DS_TOBE_TEST vector
+
+#define _PRIVATE_DEBUG
+
+#include "Dev\02\myVector.h"
+
 #include <iostream>
+#include <math.h>
 #include <vector>
 
-using namespace myDS;
+using namespace std;
 
-class testingVector
-{
-public:
-    int t1()
+using TBT = myDS::DS_TOBE_TEST<int>;
+
+void accuracyTest() {//结构正确性测试
+
+    TBT tc = TBT();
+    for(;;)
     {
-        std::vector<int> c;
-        vector<int> a;
-        auto x = a.begin();
-        auto y = *x;
-        vector<std::pair<int, int>> d;
-        auto z = d.begin();
-        auto zz = (*z).first;
-
-        std::vector<std::pair<int, int>> cc;
-        auto z2 = cc.begin();
-        auto zz2 = z2->first;
-        auto zzz2 = *z2;
-        a.push_back(1);
-        // auto x = c.begin();
-        return 0;
-    };
-
-    vector<int> tc;
-    std::vector<int> comm;
-
-    class ssdftestcls
-    {
-    public:
-        vector<int> rtt;
-        // std::vector<int> rtt;
-        int a = 0;
-        // ssdftestcls* operator=(const ssdftestcls& mwr)
-        // {
-        //     ssdftestcls* ctk = new ssdftestcls();
-        //     ctk->a = mwr.a;
-        //     // rtt = mwr.rtt;
-        //     return ctk;
-        // }
-    };
-
-    class mint
-    {
-    public:
-        int data;
-        friend std::ostream &operator<<(std::ostream &output, const mint &D)
+        string op;
+        cin >> op;
+        if(op == "clr") { //清空
+            tc.clear();
+        } else if(op == "q") //退出测试
         {
-            output << D.data;
-            return output;
-        }
-        friend std::istream &operator>>(std::istream &input, mint &D)
-        {
-            input >> D.data;
-            return input;
-        }
-    };
-    vector<mint> tc2;
-    vector<mint> comm2;
-
-    void tf2f()
-    {
-        //
-        vector<mint> a;
-        // a.push_back(1);
-        // a.push_back(2);
-        // std::cout << a[1] << " " << a.at(0) << "\n";
-        char q;
-        std::cin >> q;
-        switch (q)
-        {
-        case 'p':
-        {
-            mint c;
-            std::cin >> c;
-            tc2.push_back(c);
-            comm2.push_back(c);
-        }
-        break;
-        case 'a':
-        {
-            int n;
-            std::cin >> n;
-            for (int i = 0; i < n; i++)
-            {
-                mint t;
-                std::cin >> t;
-                tc2.push_back(t);
-                comm2.push_back(t);
-            }
-        }
-        break;
-        case 'i':
+            return;
+        } else if(op == "pb")//push_back
         {
             int c;
-            std::cin >> c;
-            std::cout << "myDS: " << tc2[c] << " " << tc2.at(c) << "\n";
-            std::cout << "STL:  " << comm[c] << " " << comm.at(c) << "\n";
-        }
-        break;
-        case 'r':
-        {
-            int c;
-            std::cin >> c;
-            tc2.resize(c);
-            comm2.resize(c);
-        }
-        break;
-        case 'w':
-        {
-            std::cout << "myDS + auto:";
-            for (auto x : tc2)
-                std::cout << x << " ";
-
-            std::cout << "\nmyDS + for :";
-            for (int i = 0; i < tc2.size(); i++)
-                std::cout << tc2[i] << " ";
-
-            std::cout << "\nSTL  + for :";
-            for (int i = 0; i < comm2.size(); i++)
-                std::cout << comm2[i] << " ";
-            std::cout << "\n";
-        }
-        break;
-        case 's':
-        {
-            std::cout << "myDS:" << tc2.size() << "\n";
-            std::cout << "STL: " << comm2.size() << "\n";
-        }
-        break;
-
-        default:
-            break;
-        }
-        // ssdftestcls tcl;
-        // vector<ssdftestcls> arr(4);
-        // for(auto x = arr.begin();x != arr.end();x ++)
-        // {
-        //     auto y = arr.end();
-        //     std::cout << (*x).a << " ";
-        // }
-        // arr[0].rtt = vector<int>(15);
-    }
-
-    void t2()
-    {
-        //
-        vector<int> a;
-        // a.push_back(1);
-        // a.push_back(2);
-        // std::cout << a[1] << " " << a.at(0) << "\n";
-        char q;
-        std::cin >> q;
-        switch (q)
-        {
-        case 'p':
-        {
-            int c;
-            std::cin >> c;
+            cin >> c;
             tc.push_back(c);
-            comm.push_back(c);
-        }
-        break;
-        case 'a':
+        // } else if(op == "pf")//push_frount
+        // {
+        //     int c;
+        //     cin >> c;
+        //     tc.push_frount(c);
+        } else if(op == "at")//随机访问
         {
-            int n;
-            std::cin >> n;
-            for (int i = 0; i < n; i++)
-            {
-                int t;
-                std::cin >> t;
-                tc.push_back(t);
-                comm.push_back(t);
-            }
-        }
-        break;
-        case 'i':
+            int p;
+            cin >> p;
+            cout << tc[p] << "\n";
+        // } else if(op == "delEL")//删除所有等于某值元素
+        // {
+        //     int p;
+        //     cin >> p;
+        //     cout << tc.erase(p) << "\n";
+        // } else if(op == "delPS")//删除某位置上的元素
+        // {
+        //     int p;
+        //     cin >> p;
+        //     cout << tc.erase(tc.get(p)) << "\n";
+        } else if(op == "iterF") //正序遍历
         {
-            int c;
-            std::cin >> c;
-            std::cout << "myDS: " << tc[c] << " " << tc.at(c) << "\n";
-            std::cout << "STL:  " << comm[c] << " " << comm.at(c) << "\n";
-        }
-        break;
-        case 'r':
+            // tc.innerPrint();
+            cout << "Iter with index:\n";
+            for(int i = 0;i < tc.size();i ++) cout << tc[i] << " ";cout << "\n";
+            cout << "Iter with begin end\n";
+            for(auto x = tc.begin();x != tc.end();x ++) cout << (*x) << " ";cout << "\n";
+            cout << "Iter with AUTO&&\n";
+            for(auto x:tc) cout << x << " ";cout << "\n";  
+        } else if(op == "iterB") //正序遍历
         {
-            int c;
-            std::cin >> c;
-            tc.resize(c);
-            comm.resize(c);
-        }
-        break;
-        case 'w':
+            // tc.innerPrint();
+            cout << "Iter with index:\n";
+            for(int i = 0;i < tc.size();i ++) cout << tc[tc.size()-1-i] << " ";cout << "\n";
+            cout << "Iter with begin end\n";
+            for(auto x = tc.rbegin();x != tc.rend();x ++) cout << (*x) << " ";cout << "\n";
+            // cout << "Iter with AUTO&&\n";."\n";  
+        } else if(op == "mv")//单点修改
         {
-            std::cout << "myDS + auto:";
-            for (auto x : tc)
-                std::cout << x << " ";
-
-            std::cout << "\nmyDS + for :";
-            for (int i = 0; i < tc.size(); i++)
-                std::cout << tc[i] << " ";
-
-            std::cout << "\nSTL  + for :";
-            for (int i = 0; i < comm.size(); i++)
-                std::cout << comm[i] << " ";
-            std::cout << "\n";
-        }
-        break;
-        case 's':
+            int p;
+            cin >> p;
+            int tr;
+            cin >> tr;
+            tc[p] = tr;
+        } else if(op == "")
         {
-            std::cout << "myDS:" << tc.size() << "\n";
-            std::cout << "STL: " << comm.size() << "\n";
+            
+        } else {
+            op.clear();
         }
-        break;
-
-        default:
-            break;
-        }
-        // ssdftestcls tcl;
-        vector<ssdftestcls> arr(4);
-        arr.push_back(ssdftestcls());
-        for (auto x = arr.begin(); x != arr.end(); x++)
-        {
-            auto y = arr.end();
-            std::cout << (*x).a << " ";
-        }
-        // arr[0].rtt = vector<int>(15);
     }
+}
 
-    class dtc
-    {
-    public:
-        ~dtc()
-        {
-            // std::cout << "DTC";
-        }
-    };
 
-    void t3()
-    {
-        vector<dtc> arr(1);
-        dtc *_begin = new dtc[20];
-        dtc __tmp = dtc();
-        delete &_begin[2];
-        _begin[2] = __tmp;
+/*
+  pb 1
+  pb 2
+  pb 3
+  pb 4
+  iterF
+  pb 9
+  iterB
+  clr
+  iterF
+  pb 1
+  iterF
+
+  pb 1
+  pb 2
+  pb 3
+  pb 4
+  iterF
+Iter with index:
+1 2 3 4
+Iter with begin end
+1 2 3 4
+Iter with AUTO&&
+1 2 3 4
+  pb 9
+  iterB
+Iter with index:
+9 4 3 2 1
+Iter with begin end
+9 4 3 2
+  clr
+  iterF
+Iter with index:
+
+Iter with begin end
+
+Iter with AUTO&&
+
+  pb 1
+  iterF
+Iter with index:
+1
+Iter with begin end
+1
+Iter with AUTO&&
+1
+
+ */
+
+void memLeakTest() {//内存泄漏测试
+    TBT tc = TBT();
+    for(;;){
+        tc.push_back(1);
+        tc.push_back(1);
+        tc.push_back(1);
+        tc.push_back(1);
+        tc.clear();
     }
+}
 
-    void t4() // test case 4:template = calss(without operator= defined)
-              //: memary leak!
-              // fixed
-    {
-        // vector<vector<int>> arr(3);
-        while (1)
-        {
-            myDS::vector<dtc> arr(3);
-        }
-        // arr[0].resize(3);
-        // for(auto &x:arr) x.resize(15);
-    }
-
-    void t5()
-    {
-        vector<vector<int>> mtx;
-        mtx.resize(15);
-        mtx[0].resize(15);
-        mtx[0][14] = 1;
-        // std::cout << mtx[0][14] << "\n";
-    }
-};
-
-int main()
+signed main()
 {
-    testingVector tc;
-    int i = 0;
-    while (1)
-    {
-        i++;
-        // std::cout << i << "\n";
-        tc.t2();
-        // system("pause");
-    }
-    return 0;
+    accuracyTest();
+    // memLeakTest();
 }
