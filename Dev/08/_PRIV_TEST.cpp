@@ -63,40 +63,97 @@ int main()
  i 5
  i 6
  p
-
+ i 1
+ i 2
+ i 3
+ i 4
  i 5
+ i 6
+p
+===DFS  Order===
+[2 : BLACK] [1 : BLACK] [NIL]
+[NIL]
+[4 : RED] [3 : BLACK] [NIL]
+[NIL]
+[5 : BLACK] [NIL]
+[6 : RED] [NIL]
+[NIL]
+===Iter Order===
 [NIL]
 [1 : BLACK] [NIL]
 [2 : BLACK] [NIL]
-[3 : RED] [NIL]
+[3 : BLACK] [NIL]
+[4 : RED] [NIL]
+[5 : BLACK] [NIL]
+[6 : RED] [NIL]
+d 2
+p
+===DFS  Order===
+[3 : BLACK] [1 : BLACK] [NIL]
+[NIL]
+[5 : RED] [4 : BLACK] [NIL]
+[NIL]
+[6 : BLACK] [NIL]
+[NIL]
+===Iter Order===
+[NIL]
+[1 : BLACK] [NIL]
+[3 : BLACK] [NIL]
 [4 : BLACK] [NIL]
 [5 : RED] [NIL]
+[6 : BLACK] [NIL]
+d 5
+p
+===DFS  Order===
+[3 : BLACK] [1 : BLACK] [NIL]
+[NIL]
+[6 : BLACK] [4 : RED] [NIL]
+[NIL]
+[NIL]
+===Iter Order===
 [NIL]
 [1 : BLACK] [NIL]
-[2 : BLACK] [NIL]
-[3 : RED] [NIL]
+[3 : BLACK] [NIL]
+[4 : RED] [NIL]
+[6 : BLACK] [NIL]
+d 3
+p
+===DFS  Order===
+[4 : BLACK] [1 : BLACK] [NIL]
+[NIL]
+[6 : BLACK] [NIL]
+[NIL]
+===Iter Order===
 [NIL]
 [1 : BLACK] [NIL]
-[2 : BLACK] [NIL]
-[3 : RED] [NIL]
-[NIL]
-[1 : BLACK] [NIL]
-[2 : BLACK] [NIL]
-[3 : RED] [NIL]
-[NIL]
-[1 : BLACK] [NIL]
-[2 : BLACK] [NIL]
-[3 : RED] [NIL]
-[NIL]
-[1 : BLACK] [NIL]
-[2 : BLACK] [NIL]
-[3 : RED] [NIL]
-[NIL]
-[3 : RED] [NIL]
 [4 : BLACK] [NIL]
-[5 : RED] [NIL]
-[2 : BLACK] [NIL]
-[3 : RED] [NIL]
+[6 : BLACK] [NIL]
+d 2
+p
+===DFS  Order===
+[4 : BLACK] [1 : BLACK] [NIL]
+[NIL]
+[6 : BLACK] [NIL]
+[NIL]
+===Iter Order===
+[NIL]
+[1 : BLACK] [NIL]
+[4 : BLACK] [NIL]
+[6 : BLACK] [NIL]
+i 2
+p
+===DFS  Order===
+[4 : BLACK] [1 : BLACK] [NIL]
+[2 : RED] [NIL]
+[NIL]
+[6 : BLACK] [NIL]
+[NIL]
+===Iter Order===
+[NIL]
+[1 : BLACK] [NIL]
+[2 : RED] [NIL]
+[4 : BLACK] [NIL]
+[6 : BLACK] [NIL]
 
 
  i 5
