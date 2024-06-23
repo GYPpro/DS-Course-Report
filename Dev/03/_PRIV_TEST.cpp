@@ -1,10 +1,11 @@
 #define DS_TOBE_TEST dataBlock
 
 #define _PRIVATE_DEBUG
-#define __DETIL_DEBUG_OUTPUT
+// #define __DETIL_DEBUG_OUTPUT
 
 #include "Dev\03\dataBlock.hpp"
 
+#include <time.h>
 #include <iostream>
 #include <math.h>
 #include <vector>
@@ -90,98 +91,102 @@ void accuracyTest() {//结构正确性测试
   pb 3
   pb 4
   iterF
---Header[0x662720]: 0
---Tail[0x662770]: 0
------------
-cur:6
-[0x662720] ->next:0x662540 ->priv:0 ||data:0
-[0x662540] ->next:0x662590 ->priv:0x662720 ||data:3
-[0x662590] ->next:0x6625e0 ->priv:0x662540 ||data:1
-[0x6625e0] ->next:0x662630 ->priv:0x662590 ||data:2
-[0x662630] ->next:0x662680 ->priv:0x6625e0 ||data:3
-[0x662680] ->next:0x6626d0 ->priv:0x662630 ||data:4
-[0x6626d0] ->next:0x662770 ->priv:0x662680 ||data:3
-[0x662770] ->next:0 ->priv:0x6626d0 ||data:0
-Iter with index:
-3 1 2 3 4 3
-Iter with begin end
-3 1 2 3 4 3
-Iter with AUTO&&
-3 1 2 3 4 3
   iterB
---Header[0x662720]: 0
---Tail[0x662770]: 0
------------
-cur:6
-[0x662720] ->next:0x662540 ->priv:0 ||data:0
-[0x662540] ->next:0x662590 ->priv:0x662720 ||data:3
-[0x662590] ->next:0x6625e0 ->priv:0x662540 ||data:1
-[0x6625e0] ->next:0x662630 ->priv:0x662590 ||data:2
-[0x662630] ->next:0x662680 ->priv:0x6625e0 ||data:3
-[0x662680] ->next:0x6626d0 ->priv:0x662630 ||data:4
-[0x6626d0] ->next:0x662770 ->priv:0x662680 ||data:3
-[0x662770] ->next:0 ->priv:0x6626d0 ||data:0
-Iter with index:
-3 4 3 2 1 3
-Iter with begin end
-3 4 3 2 1 3
-  delEL 3
-3
-  iterF
---Header[0x662720]: 0
---Tail[0x662770]: 0
------------
-cur:3
-[0x662720] ->next:0x662590 ->priv:0 ||data:0
-[0x662590] ->next:0x6625e0 ->priv:0x662720 ||data:1
-[0x6625e0] ->next:0x662680 ->priv:0x662590 ||data:2
-[0x662680] ->next:0x662770 ->priv:0x6625e0 ||data:4
-[0x662770] ->next:0 ->priv:0x662680 ||data:0
-Iter with index:
-1 2 4
-Iter with begin end
-1 2 4
-Iter with AUTO&&
-1 2 4
-  delPS 1
-1
   clr
-Unexpected Delete at :4 with next:16187728
+  pb 0
+  pb 3
   pb 1
   pb 2
+  pb 3
+  pb 4
   iterF
---Header[0x6625e0]: 0
---Tail[0x662680]: 0
------------
-cur:2
-[0x6625e0] ->next:0x662540 ->priv:0 ||data:0
-[0x662540] ->next:0x662630 ->priv:0x6625e0 ||data:1
-[0x662630] ->next:0x662680 ->priv:0x662540 ||data:2
-[0x662680] ->next:0 ->priv:0x662630 ||data:0
-Iter with index:
-1 2
-Iter with begin end
-1 2
-Iter with AUTO&&
-1 2
-  delPS 0
-1
-  delEL 2
-1
+  iterB
+  mv 0 3
   iterF
---Header[0x6625e0]: 0
---Tail[0x662680]: 0
------------
-cur:0
-[0x6625e0] ->next:0x662680 ->priv:0 ||data:0
-[0x662680] ->next:0 ->priv:0x6625e0 ||data:0
+  pb 1
+  pb 2
+  pb 3
+  pb 4
+  iterF
+
+Block : [0] at:0x722540
+1
+Block : [1] at:0x7225c0
+2
+Block : [2] at:0x722580
+3 4
 Iter with index:
-
+1 2 3 4
 Iter with begin end
-
+1 2 3 4
 Iter with AUTO&&
+1 2 3 4
+  iterB
 
+Block : [0] at:0x722540
+1
+Block : [1] at:0x7225c0
+2
+Block : [2] at:0x722580
+3 4
+Iter with index:
+4 3 2 1
+Iter with begin end
+4 3 2 1
+  clr
+  pb 0
+  pb 3
+  pb 1
+  pb 2
+  pb 3
+  pb 4
+  iterF
 
+Block : [0] at:0x722540
+0
+Block : [1] at:0x722580
+3
+Block : [2] at:0x7225c0
+1 2
+Block : [3] at:0x722600
+3 4 -1163005939 -1163005939
+Iter with index:
+0 3 1 2 3 4
+Iter with begin end
+0 3 1 2 3 4
+Iter with AUTO&&
+0 3 1 2 3 4
+  iterB
+
+Block : [0] at:0x722540
+0
+Block : [1] at:0x722580
+3
+Block : [2] at:0x7225c0
+1 2
+Block : [3] at:0x722600
+3 4 -1163005939 -1163005939
+Iter with index:
+4 3 2 1 3 0
+Iter with begin end
+4 3 2 1 3 0
+mv 0 3
+  iterF
+
+Block : [0] at:0x722540
+3
+Block : [1] at:0x722580
+3
+Block : [2] at:0x7225c0
+1 2
+Block : [3] at:0x722600
+3 4 -1163005939 -1163005939
+Iter with index:
+3 3 1 2 3 4
+Iter with begin end
+3 3 1 2 3 4
+Iter with AUTO&&
+3 3 1 2 3 4
  
  */
 
@@ -196,8 +201,35 @@ void memLeakTest() {//内存泄漏测试
     }
 }
 
+void speedTest()
+{
+    TBT tc = TBT();
+    int begin = clock(); 
+    int N = 1e8;
+    for(int i = 0;i < N;i ++)
+    {
+        tc.push_back(i);
+    }
+    cout << "myDS::dataBlock Push_back 10000000 elements cost:" << clock() - begin << "ms\n";
+
+    std::vector<int> tmp;
+    begin = clock();
+    for(int i = 0;i < N;i ++)
+    {
+        tmp.push_back(i);
+    }
+    cout << "std::vector push_back 10000000 elements cost:" << clock() - begin << "ms\n";
+    system("pause");
+
+    /*
+    myDS::dataBlock Push_back 10000000 elements cost:663ms
+    std::vector push_back 10000000 elements cost:1618ms
+  */
+}
+
 signed main()
 {
-    accuracyTest();
+    // accuracyTest();
     // memLeakTest();
+    speedTest();
 }

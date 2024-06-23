@@ -121,18 +121,28 @@ namespace myDS
 
         std::pair<std::size_t,std::size_t> prevPII(std::pair<std::size_t,std::size_t> p)
         {
-            p.second --;
-            if(p.second < 0)
+#ifdef __DETIL_DEBUG_OUTPUT
+            std::cout << "{" << p.first << "," << p.second << "}'s prev is";
+#endif
+
+            std::int32_t tmp = p.second;
+            tmp --;
+            if(tmp < 0)
             {
                 p.first--;
                 p.second = getMEX(p.first) - 1;
-            }
+            } else p.second --;
+#ifdef __DETIL_DEBUG_OUTPUT
+            std::cout << "{" << p.first << "," << p.second << "}\n";
+#endif
+
             return p;
         }
 
     public:
         dataBlock(){
-            _indexs.push_back(new VALUE_TYPE[1]);
+            VALUE_TYPE *tmp = new VALUE_TYPE[1];
+            _indexs.push_back(tmp);
         }
 
         ~dataBlock(){
@@ -141,7 +151,7 @@ namespace myDS
         }
 
         void push_back(VALUE_TYPE t) {
-            if(_cap.second >= consMEX) {
+            if(_cap.second >= getMEX(_cap.first)) {
                 _expension();
             }
             _indexs[_cap.first][_cap.second] = t;
@@ -151,21 +161,28 @@ namespace myDS
 
         void clear() {
             for(auto x:_indexs) delete [] x;
-            _indexs.push_back(new VALUE_TYPE());
+            _indexs.clear();
+            VALUE_TYPE *tmp = new VALUE_TYPE[1];
+            _indexs.push_back(tmp);
+            consMEX = 1;
+            _size = 0;
+            _cap = {0,0};
         }
 
-        std::size_t size() { }
+        std::size_t size() {
+            return _size;
+        }
 
         myDS::dataBlock<VALUE_TYPE>::_iterator begin() {
             return myDS::dataBlock<VALUE_TYPE>::_iterator(this,{0,0},myDS::dataBlock<VALUE_TYPE>::_iterator::front);
         }
         
         myDS::dataBlock<VALUE_TYPE>::_iterator rbegin() {
-            return myDS::dataBlock<VALUE_TYPE>::_iterator(this,{_cap.first,_cap.second},myDS::dataBlock<VALUE_TYPE>::_iterator::back);
+            return myDS::dataBlock<VALUE_TYPE>::_iterator(this,prevPII(_cap),myDS::dataBlock<VALUE_TYPE>::_iterator::back);
         }
 
         myDS::dataBlock<VALUE_TYPE>::_iterator end() {
-            return myDS::dataBlock<VALUE_TYPE>::_iterator(this,nextPII(_cap),myDS::dataBlock<VALUE_TYPE>::_iterator::front);
+            return myDS::dataBlock<VALUE_TYPE>::_iterator(this,nextPII(prevPII(_cap)),myDS::dataBlock<VALUE_TYPE>::_iterator::front);
         }
 
         myDS::dataBlock<VALUE_TYPE>::_iterator rend() {
@@ -175,15 +192,17 @@ namespace myDS
 #ifdef _PRIVATE_DEBUG
         void innerPrint() {
             std::pair<std::size_t,std::size_t> p = {0,0};
-            while(p != _cap) {
+            while(p.first <= _cap.first) {
                 if(p.second == 0) std::cout << "\nBlock : [" << p.first << "] at:" << _indexs[p.first] << "\n";
                 std::cout << _indexs[p.first][p.second] << " ";
                 p = nextPII(p);
             }
+            std::cout << "\n";
         }
 #endif
 
         VALUE_TYPE & operator[](std::size_t p) {
+            if(p == 0) return _indexs[0][0];
             std::int32_t onord = 0;
             std::size_t tmp = p;
             while(tmp) {
@@ -191,9 +210,9 @@ namespace myDS
                 onord++;
             }
 #ifdef __DETIL_DEBUG_OUTPUT
-            std::cout << "onord:" << onord << " p:" << p << " GETMEX :"<< getMEX(onord-1) << " index:{" << onord << "," << p - getMEX(onord-1) << "}\n";
+            std::cout << "onord:" << onord << " p:" << p << " GETMEX :"<< getMEX(onord) << " index:{" << onord << "," << p - getMEX(onord) << "}\n";
 #endif
-            return _indexs[onord][p - getMEX(onord-1)];
+            return _indexs[onord][p - getMEX(onord)];
 
         }
     };
