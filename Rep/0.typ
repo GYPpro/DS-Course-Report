@@ -103,7 +103,7 @@
 
     // 老师辛苦了，感谢您一学期的付出！
 
-    本实验报告的可运行文件、commit记录等已经在#smallcaps[Github]上同步了所有相关资料:
+    本实验报告的所有代码文件、commit记录等已经在#smallcaps[Github]上同步了所有相关资料:
     `https://github.com/GYPpro/DS-Course-Report`
     
     仓库会在7月1日前保持`private`
