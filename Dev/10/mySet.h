@@ -66,72 +66,6 @@ namespace myDS
 
         };
     
-        class iterator{
-        friend RBtree;
-        protected:
-            Node * ptr;
-            Node * NIL;
-
-            void loop2Begin() {
-                if(ptr == NIL){ptr = nullptr;return;}
-                while(ptr->leftSubTree != NIL) ptr = ptr->leftSubTree;
-            }
-
-            void loop2End() {
-                if(ptr == NIL){ptr = nullptr;return;}
-                if(ptr->parent == nullptr){ ptr = nullptr;return;}
-                while(ptr->parent->leftSubTree != ptr) {
-                    ptr = ptr->parent;
-                    if(ptr->parent == nullptr){ ptr = nullptr;return;}
-                }
-                ptr = ptr->parent;
-            }
-
-            void getNextNode() {
-                if(ptr->rightSubTree != NIL){
-                    ptr = ptr->rightSubTree;
-                    loop2Begin();
-                } else {
-                    loop2End();
-                }
-            }
-
-        public:
-            iterator(Node * _ptr,Node * _NIL) {
-                ptr = _ptr;
-                NIL = _NIL;
-            }
-
-            const VALUE_TYPE & operator*()
-            {
-                return ptr->value;
-            }
-
-            VALUE_TYPE *operator->() //?
-            {
-                return ptr;
-            }
-
-            myDS::RBtree<VALUE_TYPE>::iterator operator++() {
-                auto old = *this;
-                getNextNode();
-                return old;
-            }
-
-            myDS::RBtree<VALUE_TYPE>::iterator operator++(int) {
-                getNextNode();
-                return (*this);
-            }
-
-            bool operator==(myDS::RBtree<VALUE_TYPE>::iterator _b) {
-                return ptr == _b.ptr;
-            }
-
-            bool operator!=(myDS::RBtree<VALUE_TYPE>::iterator _b) {
-                return ptr != _b.ptr;
-            }
-        };
-
     public:
         //树结构
         Node *root, *NIL;
@@ -166,24 +100,8 @@ namespace myDS
             } else subInsert(root,data);
         }
 
-        bool find(VALUE_TYPE tar) {
-            if(!erase(tar)) return 0;
-            insert(tar);
-            return 1;
-        }
-
         bool erase(VALUE_TYPE data) {
             return subDelete(root,data); 
-        }
-
-        myDS::RBtree<VALUE_TYPE>::iterator begin(){ 
-            auto rt = iterator(root,NIL);
-            rt.loop2Begin();
-            return rt;
-        }
-
-        myDS::RBtree<VALUE_TYPE>::iterator end(){
-            return iterator(nullptr,NIL);
         }
 
 #ifdef __PRIVATE_DEBUGE

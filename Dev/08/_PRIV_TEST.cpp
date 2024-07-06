@@ -35,6 +35,17 @@ int main()
             rbt.printDfsOrder();
             std::cout << "===Iter Order===\n";
             rbt.printIterOrder();
+            // std::cout << "===Use  Itera===\n";
+            // for(auto x:rbt) std::cout << x << " ";
+            // cout << "\n";
+            std::cout << "===Use  Bg Ed===\n";
+            for(auto x = rbt.begin();x != rbt.end();x ++)
+            {
+                auto & y = *x;
+                std::cout << y << " ";
+            }cout << "\n";
+            
+            std::cout << "\n";
             // rbt.inorder();
             break;
         case 'd':
@@ -46,6 +57,13 @@ int main()
             }
             /* code */
             break;
+        case 'f':
+            {
+                int t;
+                std::cin >> t;
+                std::cout << rbt.find(t);
+            }
+        
         default:
             break;
         }

@@ -124,3 +124,8 @@ IDE：Visual Studio Code
 = 测试数据与运行结果
 \
 #h(1.8em)
+
+`push_back`:$OO ( log_2[epsilon.alt(log_10(n))] dot log_10 [(n dot log_2 n)/(2^("celi"(log_2n)))] dot n) $
+其中$epsilon.alt(x)$定义为$x$之前的整数含有的最大质因子数，约为$O(log_2(x))$，$"celi"(x)$为向下取整
+
+`get_index`:$OO (log_10 (log_2 (n)) dot n)$

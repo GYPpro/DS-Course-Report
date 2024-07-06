@@ -47,6 +47,7 @@
         "bitset": "cpp",
         "functional": "cpp",
         "iterator": "cpp"
-    }
+    },
+    "editor.wordWrapColumn": 90
 
 }
