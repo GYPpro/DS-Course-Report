@@ -163,15 +163,14 @@ namespace myDS
                 root->rightSubTree = NIL;
                 root->value = data;
             } else {
-                if(this->find(data)) return;
+                if(this->locate(data,root)) return;
                 subInsert(root,data);
             }
         }
 
-        bool find(VALUE_TYPE tar) {
-            if(!erase(tar)) return 0;
-            insert(tar);
-            return 1;
+        VALUE_TYPE find(VALUE_TYPE tar) {
+            if(locate(tar,root) != nullptr) return locate(tar,root)->value;
+            else return -1;
         }
 
         bool erase(VALUE_TYPE data) {
@@ -215,6 +214,13 @@ namespace myDS
         }
 #endif
     private:
+        Node * locate(VALUE_TYPE t,Node * p) {
+            if(p == NIL) return nullptr;
+            else if(p->value == t) return p;
+            else if(p->value > t) return locate(t,p->leftSubTree);
+            else return locate(t,p->rightSubTree);
+        }
+
         //右旋某个节点
         void rotateRight(Node *p)
         {
@@ -289,16 +295,16 @@ namespace myDS
         void subInsert(Node *p,VALUE_TYPE data)
         {
             if(p->value >= data){ //1 2
-            if(p->leftSubTree != NIL) //3
-                subInsert(p->leftSubTree, data);
-            else {
-                Node *tmp = new Node();//3
-                tmp->value = data;
-                tmp->leftSubTree = tmp->rightSubTree = NIL;
-                tmp->parent = p;
-                p->leftSubTree = tmp;
-                resetStatus_forInsert(tmp);
-            }
+                if(p->leftSubTree != NIL) //3
+                    subInsert(p->leftSubTree, data);
+                else {
+                    Node *tmp = new Node();//3
+                    tmp->value = data;
+                    tmp->leftSubTree = tmp->rightSubTree = NIL;
+                    tmp->parent = p;
+                    p->leftSubTree = tmp;
+                    resetStatus_forInsert(tmp);
+                }
             } else {
                 if(p->rightSubTree != NIL) //1 2
                     subInsert(p->rightSubTree, data);

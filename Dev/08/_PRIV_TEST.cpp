@@ -15,7 +15,7 @@ int main()
     // testingVector tc;
     int i = 0;
     // bst rbt;
-    map<int> rbt;
+    RBtree<int> rbt;
     while (1)
     {
         // i++;
@@ -59,9 +59,9 @@ int main()
             break;
         case 'f':
             {
-                // int t;
-                // std::cin >> t;
-                // std::cout << rbt.find(t);
+                int t;
+                std::cin >> t;
+                std::cout << rbt.find(t);
             }
         
         default:
@@ -193,6 +193,28 @@ i 3
 i 5
 i 4
 p
+===DFS  Order===
+[2 : BLACK] [1 : BLACK] [NIL]
+[NIL]
+[4 : BLACK] [3 : RED] [NIL]
+[NIL]
+[5 : RED] [NIL]
+[NIL]
+===Iter Order===
+[NIL]
+[1 : BLACK] [NIL]
+[2 : BLACK] [NIL]
+[3 : RED] [NIL]
+[4 : BLACK] [NIL]
+[5 : RED] [NIL]
+===Use  Bg Ed===
+1 2 3 4 5
+
+f 4
+4
+d 4
+f 4
+-1
 
 */
 
