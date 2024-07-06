@@ -16,7 +16,6 @@ namespace myDS
 {
     template <typename VALUE_TYPE>
     class RBtree{
-    
     private:
         // using int size_t;
         enum COLOR {RED,BLACK};
@@ -163,7 +162,10 @@ namespace myDS
                 root->leftSubTree = NIL;
                 root->rightSubTree = NIL;
                 root->value = data;
-            } else subInsert(root,data);
+            } else {
+                if(this->find(data)) return;
+                subInsert(root,data);
+            }
         }
 
         bool find(VALUE_TYPE tar) {
