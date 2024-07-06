@@ -1,19 +1,21 @@
-#ifndef PRVLIBCPP_MAP_HPP
-#define PRVLIBCPP_MAP_HPP
+#ifndef RBTREE_MAP_HPP
+#define RBTREE_MAP_HPP
 
 #ifdef __PRIVATE_DEBUGE
 #include <iostream>
 #endif
 
-#include <utility>
-
+#include <vector>
+#include <stdlib.h>
 #include "Dev\02\myVector.h"
+
+using std::vector;
+
 
 namespace myDS
 {
     template <typename KEY,typename VALUE>
     class map{
-    using VALUE_TYPE = std::pair<KEY,VALUE>
     private:
         // using int size_t;
         enum COLOR {RED,BLACK};
@@ -22,14 +24,15 @@ namespace myDS
         //节点类
         class Node{
         public:
-            VALUE_TYPE value;
+            KEY key;
+            VALUE value;
             COLOR color;
             Node *leftSubTree,  //左子树根节点指针
                     *rightSubTree, //右子树根节点指针
                     *parent;       //父节点指针
             
             explicit Node() : //构造函数
-                value(VALUE_TYPE()), 
+                key(KEY()), 
                 color(COLOR::RED),
                 leftSubTree(nullptr),
                 rightSubTree(nullptr),
@@ -99,32 +102,32 @@ namespace myDS
                 NIL = _NIL;
             }
 
-            const VALUE_TYPE & operator*()
+            const KEY & operator*()
             {
-                return ptr->value;
+                return ptr->key;
             }
 
-            VALUE_TYPE *operator->() //?
+            KEY *operator->() //?
             {
                 return ptr;
             }
 
-            myDS::map<VALUE_TYPE>::iterator operator++() {
+            myDS::map<KEY>::iterator operator++() {
                 auto old = *this;
                 getNextNode();
                 return old;
             }
 
-            myDS::map<VALUE_TYPE>::iterator operator++(int) {
+            myDS::map<KEY>::iterator operator++(int) {
                 getNextNode();
                 return (*this);
             }
 
-            bool operator==(myDS::map<VALUE_TYPE>::iterator _b) {
+            bool operator==(myDS::map<KEY>::iterator _b) {
                 return ptr == _b.ptr;
             }
 
-            bool operator!=(myDS::map<VALUE_TYPE>::iterator _b) {
+            bool operator!=(myDS::map<KEY>::iterator _b) {
                 return ptr != _b.ptr;
             }
         };
@@ -153,36 +156,35 @@ namespace myDS
             delete NIL;
         }
 
-        void insert(VALUE_TYPE data) {
+        void insert(KEY data) {
             if(root == nullptr) {
                 root = new Node();
                 root->color = COLOR::BLACK;
                 root->leftSubTree = NIL;
                 root->rightSubTree = NIL;
-                root->value = data;
+                root->key = data;
             } else {
-                if(this->find(data)) return;
+                if(this->locate(data,root)) return;
                 subInsert(root,data);
             }
         }
 
-        bool find(VALUE_TYPE tar) {
-            if(!erase(tar)) return 0;
-            insert(tar);
-            return 1;
+        KEY find(KEY tar) {
+            if(locate(tar,root) != nullptr) return locate(tar,root)->key;
+            else return -1;
         }
 
-        bool erase(VALUE_TYPE data) {
+        bool erase(KEY data) {
             return subDelete(root,data); 
         }
 
-        myDS::map<VALUE_TYPE>::iterator begin(){ 
+        myDS::map<KEY>::iterator begin(){ 
             auto rt = iterator(root,NIL);
             rt.loop2Begin();
             return rt;
         }
 
-        myDS::map<VALUE_TYPE>::iterator end(){
+        myDS::map<KEY>::iterator end(){
             return iterator(nullptr,NIL);
         }
 
@@ -192,7 +194,7 @@ namespace myDS
             auto dfs = [&](auto self,Node * p ) -> void {
                 if(p == nullptr){ std::cout << "ED\n";return;}
                 if(p->leftSubTree == nullptr && p->rightSubTree == nullptr) {std::cout << "[NIL] \n";return;}
-                std::cout << "["<< p->value << " : " << (p->color == COLOR::BLACK ?"BLACK":"RED") << "] ";
+                std::cout << "["<< p->key << " : " << (p->color == COLOR::BLACK ?"BLACK":"RED") << "] ";
                 self(self,p->leftSubTree);
                 self(self,p->rightSubTree);
                 return;
@@ -206,13 +208,20 @@ namespace myDS
             auto dfs = [&](auto self,Node * p) -> void{
                 if(p->leftSubTree == nullptr && p->rightSubTree == nullptr) {std::cout << "[NIL] \n";return;}
                 self(self,p->leftSubTree);
-                std::cout << "["<< p->value << " : " << (p->color == COLOR::BLACK ?"BLACK":"RED") << "] ";
+                std::cout << "["<< p->key << " : " << (p->color == COLOR::BLACK ?"BLACK":"RED") << "] ";
                 self(self,p->rightSubTree);
             };
             dfs(dfs,root);
         }
 #endif
     private:
+        Node * locate(KEY t,Node * p) {
+            if(p == NIL) return nullptr;
+            else if(p->key == t) return p;
+            else if(p->key > t) return locate(t,p->leftSubTree);
+            else return locate(t,p->rightSubTree);
+        }
+
         //右旋某个节点
         void rotateRight(Node *p)
         {
@@ -284,25 +293,25 @@ namespace myDS
         }
 
         //插入节点递归部分
-        void subInsert(Node *p,VALUE_TYPE data)
+        void subInsert(Node *p,KEY data)
         {
-            if(p->value >= data){ //1 2
-            if(p->leftSubTree != NIL) //3
-                subInsert(p->leftSubTree, data);
-            else {
-                Node *tmp = new Node();//3
-                tmp->value = data;
-                tmp->leftSubTree = tmp->rightSubTree = NIL;
-                tmp->parent = p;
-                p->leftSubTree = tmp;
-                resetStatus_forInsert(tmp);
-            }
+            if(p->key >= data){ //1 2
+                if(p->leftSubTree != NIL) //3
+                    subInsert(p->leftSubTree, data);
+                else {
+                    Node *tmp = new Node();//3
+                    tmp->key = data;
+                    tmp->leftSubTree = tmp->rightSubTree = NIL;
+                    tmp->parent = p;
+                    p->leftSubTree = tmp;
+                    resetStatus_forInsert(tmp);
+                }
             } else {
                 if(p->rightSubTree != NIL) //1 2
                     subInsert(p->rightSubTree, data);
                 else {
                     Node *tmp = new Node();
-                    tmp->value = data;
+                    tmp->key = data;
                     tmp->leftSubTree = tmp->rightSubTree = NIL;
                     tmp->parent = p;
                     p->rightSubTree = tmp;
@@ -355,7 +364,7 @@ namespace myDS
         }
 
         //删除时的递归部分
-        bool subDelete(Node *p, VALUE_TYPE data){
+        bool subDelete(Node *p, KEY data){
 
             //获取最接近叶节点的儿子
             auto getLowwestChild = [&](auto self,Node *p) -> Node*{
@@ -363,23 +372,23 @@ namespace myDS
                 return self(self,p->leftSubTree);
             };
 
-            if(p->value > data){
+            if(p->key > data){
                 if(p->leftSubTree == NIL){
                     return false;
                 }
                 return subDelete(p->leftSubTree, data);
-            } else if(p->value < data){
+            } else if(p->key < data){
                 if(p->rightSubTree == NIL){
                     return false;
                 }
                 return subDelete(p->rightSubTree, data);
-            } else if(p->value == data){
+            } else if(p->key == data){
                 if(p->rightSubTree == NIL){
                     deleteChild(p);
                     return true;
                 }
                 Node *smallChild = getLowwestChild(getLowwestChild,p->rightSubTree);
-                std::swap(p->value, smallChild->value);
+                std::swap(p->key, smallChild->key);
                 deleteChild(smallChild);
 
                 return true;
