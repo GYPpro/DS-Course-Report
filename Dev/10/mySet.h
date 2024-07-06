@@ -8,7 +8,7 @@ namespace myDS
     template<typename VALUE_TYPE>
     class set{
     private:
-        myDS::RBtree<VALUE_TYPE> dataST;
+        myDS::map<VALUE_TYPE> dataST;
 
     public:
         set(){ }

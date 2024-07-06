@@ -15,7 +15,7 @@ int main()
     // testingVector tc;
     int i = 0;
     // bst rbt;
-    RBtree<int> rbt;
+    map<int> rbt;
     while (1)
     {
         // i++;
