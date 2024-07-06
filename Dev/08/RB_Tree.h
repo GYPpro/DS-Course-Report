@@ -192,6 +192,7 @@ namespace myDS
         void printDfsOrder()
         {
             auto dfs = [&](auto self,Node * p ) -> void {
+                if(p == nullptr){ std::cout << "ED\n";return;}
                 if(p->leftSubTree == nullptr && p->rightSubTree == nullptr) {std::cout << "[NIL] \n";return;}
                 std::cout << "["<< p->value << " : " << (p->color == COLOR::BLACK ?"BLACK":"RED") << "] ";
                 self(self,p->leftSubTree);
@@ -228,7 +229,7 @@ namespace myDS
             if(root == _pa) root = p;
             p->parent = _gp;
             if(_gp != nullptr) if(_gp->leftSubTree == _pa) _gp->leftSubTree = p;
-                else _gp->leftSubTree = p;
+                else _gp->rightSubTree = p;
             return;
         }
 
@@ -287,11 +288,11 @@ namespace myDS
         //插入节点递归部分
         void subInsert(Node *p,VALUE_TYPE data)
         {
-            if(p->value >= data){
-            if(p->leftSubTree != NIL)
+            if(p->value >= data){ //1 2
+            if(p->leftSubTree != NIL) //3
                 subInsert(p->leftSubTree, data);
             else {
-                Node *tmp = new Node();
+                Node *tmp = new Node();//3
                 tmp->value = data;
                 tmp->leftSubTree = tmp->rightSubTree = NIL;
                 tmp->parent = p;
@@ -299,7 +300,7 @@ namespace myDS
                 resetStatus_forInsert(tmp);
             }
             } else {
-                if(p->rightSubTree != NIL)
+                if(p->rightSubTree != NIL) //1 2
                     subInsert(p->rightSubTree, data);
                 else {
                     Node *tmp = new Node();
@@ -334,7 +335,7 @@ namespace myDS
                         p->color = COLOR::BLACK;
                         p->parent->color = COLOR::RED;
                         rotateRight(p);
-                    } else if(p->parent->leftSubTree == p && p->getGrandParent()->rightSubTree == p->parent) {
+                    } else if(p->parent->leftSubTree == p && p->getGrandParent()->rightSubTree == p->parent) {  //this
                         //case 4:
                         rotateRight(p);
                         p->color = COLOR::BLACK;

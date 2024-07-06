@@ -59,9 +59,9 @@ int main()
             break;
         case 'f':
             {
-                int t;
-                std::cin >> t;
-                std::cout << rbt.find(t);
+                // int t;
+                // std::cin >> t;
+                // std::cout << rbt.find(t);
             }
         
         default:
@@ -184,6 +184,16 @@ p
 1 2 3 4 5
 
  p
+*/
+
+/*
+i 1
+i 2
+i 3
+i 5
+i 4
+p
+
 */
 
 }
