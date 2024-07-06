@@ -30,7 +30,7 @@ namespace myDS
                     *rightSubTree, //右子树根节点指针
                     *parent;       //父节点指针
             
-            explicit Node() : //构造函数
+            explicit Node() :
                 value(VALUE_TYPE()), 
                 color(COLOR::RED),
                 leftSubTree(nullptr),
@@ -135,14 +135,12 @@ namespace myDS
         //树结构
         Node *root, *NIL;
         
-        //构造函数
         RBtree() {
             NIL = new Node();
             NIL->color = COLOR::BLACK;
             root = nullptr;
         };
 
-        //析构函数
         ~RBtree(){
             auto DeleteSubTree = [&](auto self,Node *p) -> void{
                 if(p == nullptr || p == NIL) return;
