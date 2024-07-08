@@ -51,7 +51,6 @@
 
 #set math.equation(numbering: "(1)")
 
-#pagebreak()
 #[
     #set text(
       font:("Times New Roman","Source Han Serif SC"),
@@ -60,12 +59,11 @@
       size: 22pt,
   )
 
-
   #[
     #set align(
       left+horizon
     )
-    = 写在前面
+    = 目录与绪论
     #smallcaps[Overall]
     #line(start: (0pt,-11pt),end:(300pt,-11pt))
     #set text(
@@ -88,9 +86,8 @@
       (),[10],[基于R-BTree实现`set`],
       (),[11],[基于R-BTree实现`map`],
       (),[15],[基于Heap实现`priority_queue`],
-      rowspanx(4)[基础树/图结构],[6],[树上dfs（基础信息）],
+      rowspanx(3)[基础树/图结构],[6],[树上dfs（基础信息）],
       (),[7],[图上bfs（最短路）],
-      (),[8],[二叉树三序遍历],
       (),[9],[R-BTree的基本实现],
       rowspanx(4)[特殊结构\ 及其应用],[12],[字典树`Trie`],
       (),[13],[线段树`segTree`],
@@ -105,8 +102,14 @@
 
     本实验报告的所有代码文件、commit记录等已经在#smallcaps[Github]上同步了所有相关资料:
     `https://github.com/GYPpro/DS-Course-Report`
+
+    本pdf提供了完整的目录，强烈建议在#smallcaps[Github]上下载阅读~
     
-    仓库会在7月1日前保持`private`
+    使用`typst`渲染
+
+    仓库会在7月10日前保持`private`
+
+    *这两页只是用来大概描述用的，归档时可以撕去*
 
     // #[
     //   #set align(bottom)

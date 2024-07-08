@@ -48,6 +48,6 @@
         "functional": "cpp",
         "iterator": "cpp"
     },
-    "editor.wordWrapColumn": 90
+    "editor.wordWrapColumn": 120
 
 }

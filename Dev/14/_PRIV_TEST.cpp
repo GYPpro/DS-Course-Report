@@ -1,11 +1,11 @@
 #include <iostream>
 #define __PRIVATE_DEBUGE
-#include <Dev\14\priority_queue.h>
+#include <Dev\14\big_root_heap.h>
 using namespace std;
 
 int main()
 {
-    myDS::priority_queue<int> piq;
+    myDS::big_root_heap<int> piq;
     while(1) {
         string s;
         cin >> s;
